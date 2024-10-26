@@ -1,7 +1,11 @@
 from decimal import Decimal
 from typing import Any
 
-from serializers import DataAccumulatorsSyncEvent, LiquidationEventData, WithdrawalEventData
+from serializers import (
+    DataAccumulatorsSyncEvent,
+    LiquidationEventData,
+    WithdrawalEventData,
+)
 
 
 class ZklendDataParser:
@@ -71,10 +75,9 @@ class ZklendDataParser:
             user=event_data[0],
             amount=event_data[1],
             token=event_data[2],
-           
         )
         return parsed_event
-      
+
     @classmethod
     def parse_borrowing_event(cls, event_data):
         # TODO: Implement parsing logic for Borrowing event
