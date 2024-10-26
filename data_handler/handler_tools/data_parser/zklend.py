@@ -1,7 +1,7 @@
 from decimal import Decimal
 from typing import Any
 
-from serializers import DataAccumulatorsSyncEvent, LiquidationEventData
+from serializers import DataAccumulatorsSyncEvent, LiquidationEventData, WithdrawalEventData
 
 
 class ZklendDataParser:
@@ -50,10 +50,31 @@ class ZklendDataParser:
         pass
 
     @classmethod
-    def parse_withdrawal_event(cls, event_data):
-        # TODO: Implement parsing logic for Withdrawal event
-        pass
+    def parse_withdrawal_event(cls, event_data: list[Any]) -> WithdrawalEventData:
+        """
+        Parses the Withdrawal event data into a human-readable format using the WithdrawalEventData serializer.
 
+        The event data is fetched from on-chain logs and is structured in the following way:
+        - event_data[0]: The user address (as a hexadecimal string).
+        - event_data[1]: The amount withdrawn (as a string).
+        - event_data[2]: The token address (as a hexadecimal string).
+        - event_data[3]: Additional data, if applicable (e.g., transaction ID).
+
+        Args:
+            event_data (list[Any]): A list containing the raw event data, typically with 3 or more elements:
+                user address, amount withdrawn, token address, and additional data.
+
+        Returns:
+            WithdrawalEventData: A Pydantic model with the parsed and validated event data in a human-readable format.
+        """
+        parsed_event = WithdrawalEventData(
+            user=event_data[0],
+            amount=event_data[1],
+            token=event_data[2],
+           
+        )
+        return parsed_event
+      
     @classmethod
     def parse_borrowing_event(cls, event_data):
         # TODO: Implement parsing logic for Borrowing event
